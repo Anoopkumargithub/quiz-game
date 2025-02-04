@@ -8,6 +8,7 @@ async function fetchQuestions() {
     questions = await response.json();
     document.getElementById("total-questions").textContent = questions.length;
     displayQuestion();
+    console.log("Fetched questions:", questions); // For debugging
   } catch (error) {
     console.error("Error fetching questions:", error);
   }
@@ -25,7 +26,6 @@ function displayQuestion() {
     return;
   }
 
-  // Update question counter
   document.getElementById("current-question").textContent = currentQuestion + 1;
 
   const question = questions[currentQuestion];
@@ -38,6 +38,7 @@ function displayQuestion() {
     const button = document.createElement("button");
     button.className = "option";
     button.textContent = option;
+    button.setAttribute("data-index", index); // Add index as data attribute
     button.onclick = () => selectOption(index);
     optionsContainer.appendChild(button);
   });
@@ -68,27 +69,26 @@ document.getElementById("submit").addEventListener("click", () => {
     return;
   }
 
-  const selectedIndex = Array.from(
-    document.querySelectorAll(".option"),
-  ).indexOf(selectedOption);
+  const selectedIndex = parseInt(selectedOption.getAttribute("data-index"));
+  const correctAnswer = questions[currentQuestion].answer; // Correct answer text
 
-  if (selectedIndex === questions[currentQuestion].correctAnswer) {
+  console.log("Selected Index:", selectedIndex); // For debugging
+  console.log("Correct Answer:", correctAnswer); // For debugging
+  console.log("Current Question:", questions[currentQuestion]); // For debugging
+
+  // Check if answer is correct by comparing text instead of index
+  if (questions[currentQuestion].options[selectedIndex] === correctAnswer) {
     score++;
     updateScore();
-    alert("Correct Answer! 🎉");
-  } else {
-    alert(
-      "Wrong Answer! The correct answer was: " +
-        questions[currentQuestion].options[
-          questions[currentQuestion].correctAnswer
-        ],
-    );
-  }
+  } 
 
+  // Move to next question
   currentQuestion++;
   displayQuestion();
 });
 
+
+// Initialize the quiz
 window.onload = () => {
   score = 0;
   currentQuestion = 0;
