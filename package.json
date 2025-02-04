@@ -1,0 +1,17 @@
+{
+  "name": "quiz-game-week4",
+  "version": "1.0.0",
+  "description": "---",
+  "license": "ISC",
+  "author": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node evaluate.js"
+  },
+  "dependencies": {
+    "http": "^0.0.0",
+    "fs": "^0.0.0",
+    "path": "^0.12.7"
+  }
+}
